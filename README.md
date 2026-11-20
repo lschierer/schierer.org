@@ -19,3 +19,20 @@ mise run build    # just assemble ./dist without a container
 
 The whole build happens inside the container's build stage, so the only local
 requirement is podman (or docker).
+
+## Deployment (AWS Lightsail)
+
+The site runs on a Lightsail container service (`schierer-org`, nano power,
+one node, about $7/month) in us-east-2 with the `personal` AWS profile.
+Lightsail handles TLS, health checks, and restarting the container.
+
+Requires `lightsailctl` for image pushes: `brew install aws/tap/lightsailctl`.
+
+```
+mise run aws-setup     # once: container service + certificate (+ Route 53 validation CNAMEs)
+mise run deploy        # every change: build, push, deploy, wait, smoke test
+mise run dns-test      # once: static.schierer.org -> Lightsail, for testing
+mise run dns-cutover   # once: schierer.org and www.schierer.org -> Lightsail
+```
+
+A failed deployment leaves the previous one serving.

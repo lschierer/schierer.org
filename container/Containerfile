@@ -1,7 +1,9 @@
 # Build context is the repository root:
 #   podman build -f container/Containerfile -t schierer-org .
 
-FROM docker.io/library/alpine:3 AS build
+# The build stage runs on the host's native platform; the final stage only
+# copies files, so building for linux/amd64 (Lightsail) needs no emulation.
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine:3 AS build
 WORKDIR /src
 COPY scripts ./scripts
 COPY templates ./templates

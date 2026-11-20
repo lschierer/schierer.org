@@ -1,3 +1,6 @@
+[tools]
+aws = "latest"
+
 [tasks.build]
 description = "Assemble the static site into ./dist (no container needed)"
 run = "sh scripts/build-site.sh"
@@ -10,3 +13,19 @@ run = "podman build -f container/Containerfile -t schierer-org ."
 description = "Run the container locally on http://127.0.0.1:8088"
 depends = ["image"]
 run = "podman run --rm --name schierer-org -p 127.0.0.1:8088:8080 schierer-org"
+
+[tasks.aws-setup]
+description = "One-time: create the Lightsail container service and TLS certificate"
+run = "bash scripts/aws/setup.sh"
+
+[tasks.deploy]
+description = "Build, push, and deploy the image to Lightsail"
+run = "bash scripts/aws/deploy.sh"
+
+[tasks.dns-test]
+description = "Point static.schierer.org at the Lightsail service"
+run = "bash scripts/aws/dns.sh static.schierer.org"
+
+[tasks.dns-cutover]
+description = "Point schierer.org and www.schierer.org at Lightsail (production)"
+run = "CONFIRM_CUTOVER=yes bash scripts/aws/dns.sh schierer.org www.schierer.org"
