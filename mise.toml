@@ -1,0 +1,12 @@
+[tasks.build]
+description = "Assemble the static site into ./dist (no container needed)"
+run = "sh scripts/build-site.sh"
+
+[tasks.image]
+description = "Build the nginx container image"
+run = "podman build -f container/Containerfile -t schierer-org ."
+
+[tasks.serve]
+description = "Run the container locally on http://127.0.0.1:8088"
+depends = ["image"]
+run = "podman run --rm --name schierer-org -p 127.0.0.1:8088:8080 schierer-org"

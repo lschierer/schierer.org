@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[% title %]</title>
+  <title>Ann's Poetry</title>
   <style>
     body {
       font-family: Georgia, "Times New Roman", serif;
@@ -58,12 +58,14 @@
 </head>
 <body>
   <header>
-    <h1>[% title %]</h1>
+    <h1>Ann's Poetry</h1>
     <p class="note">This site represents a partial recovery of a previous site that was lost in a server crash.</p>
   </header>
 
   <main>
-    [% content %]
+<ul class="poem-list">
+@@POEMS@@
+</ul>
   </main>
 
   <footer>

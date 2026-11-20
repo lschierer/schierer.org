@@ -1,0 +1,15 @@
+# Build context is the repository root:
+#   podman build -f container/Containerfile -t schierer-org .
+
+FROM docker.io/library/alpine:3 AS build
+WORKDIR /src
+COPY scripts ./scripts
+COPY templates ./templates
+COPY site ./site
+COPY content ./content
+RUN OUT_DIR=/out sh scripts/build-site.sh
+
+FROM docker.io/nginxinc/nginx-unprivileged:stable-alpine
+COPY container/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /out /usr/share/nginx/html
+EXPOSE 8080

@@ -1,0 +1,6 @@
+.git
+dist
+infra
+node_modules
+cdk.out
+legacy
