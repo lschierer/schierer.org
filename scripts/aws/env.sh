@@ -7,7 +7,7 @@ export AWS_PROFILE AWS_REGION
 
 SERVICE=${SERVICE:-schierer-org}
 CONTAINER=site
-CERT_NAME=${CERT_NAME:-schierer-org}
+CERT_NAME=${CERT_NAME:-schierer-org-cert}  # must differ from SERVICE
 HOSTED_ZONE_ID=${HOSTED_ZONE_ID:-ZOB4NXMJR2BZF}
 IMAGE=${IMAGE:-localhost/schierer-org:latest}
 
